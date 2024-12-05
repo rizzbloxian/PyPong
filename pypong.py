@@ -73,7 +73,7 @@ while shouldQuit == False:
         t.fd(1)
         drawTime = tickTime
 
-    time.sleep(0.0)
+    time.sleep(1/100)
     s.update()
     fpsCounter = fpsCounter + 1
 
