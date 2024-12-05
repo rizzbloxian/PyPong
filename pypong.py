@@ -70,7 +70,7 @@ while shouldQuit == False:
         penDown = not penDown
 
     if (tickTime - drawTime) > (1/60):
-        t.fd(1)
+        t.fd(2)
         drawTime = tickTime
 
     time.sleep(1/100)
