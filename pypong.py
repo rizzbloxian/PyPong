@@ -106,6 +106,32 @@ topbarrier.goto(-320, 240)
 topbarrier.pendown()
 topbarrier.fd(640)
 
+# making paddles
+paddlewidth = 10
+paddlelength = 75
+brush = turtle.Turtle()
+brush.begin_poly()
+brush.begin_fill()
+brush.fd(paddlewidth)
+brush.rt(90)
+brush.fd(paddlelength)
+brush.rt(90)
+brush.fd(paddlewidth)
+brush.rt(90)
+brush.fd(paddlelength)
+brush.end_fill()
+brush.end_poly()
+paddle = brush.get_poly()
+turtle.register_shape("paddle", paddle)
+brush.clear()
+p1paddle = turtle.Turtle()
+p1paddle.shape("paddle")
+p1paddle.penup()
+p1paddle.rt(90)
+p1paddle.goto(-310, 0)
+p2paddle = turtle.Turtle()
+
+
 def moveUp():
     global direction
     direction = "up"
