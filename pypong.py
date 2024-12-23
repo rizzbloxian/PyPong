@@ -1,6 +1,6 @@
 # create the play area - done
 # draw center line - done
-# make paddles -
+# make paddles - done
 # make a ball\ -
 # make ball move -
 # make the barriers - done
@@ -8,7 +8,7 @@
 # make score board - done
 # score board updater/points counter -
 # make collision detection -
-# controls (e.g., start and finish game, move paddles -
+# controls (e.g., start and finish game, move paddles - paddles are done
 
 
 
@@ -72,6 +72,9 @@ fpsCounter = 0
 shouldQuit = False
 penDown = True
 direction = "down"
+p1direction = "none"
+p2direction = "none"
+paddlespeed = 2
 
 
 # score variables
@@ -130,15 +133,27 @@ p1paddle.penup()
 p1paddle.rt(90)
 p1paddle.goto(-310, 0)
 p2paddle = turtle.Turtle()
+p2paddle.shape("paddle")
+p2paddle.penup()
+p2paddle.rt(90)
+p2paddle.goto(310, 0)
 
 
-def moveUp():
-    global direction
-    direction = "up"
+def p1moveUp():
+    global p1direction
+    p1direction = "up"
 
-def moveDown():
-    global direction
-    direction = "down"
+def p1moveDown():
+    global p1direction
+    p1direction = "down"
+
+def p2moveUp():
+    global p2direction
+    p2direction = "up"
+
+def p2moveDown():
+    global p2direction
+    p2direction = "down"
 
 def moveLeft():
     global direction
@@ -148,18 +163,31 @@ def moveRight():
     global direction
     direction = "right"
 
+def p1release():
+    global p1direction
+    p1direction = "none"
+
+def p2release():
+    global p2direction
+    p2direction = "none"
+
 def doQuit():
     global shouldQuit
     shouldQuit = True
 
 # register listeners
 s.listen()
-s.onkeypress(moveUp, "w")
-s.onkeypress(moveDown, "s")
+s.onkeypress(p1moveUp, "w")
+s.onkeypress(p1moveDown, "s")
+s.onkeypress(p2moveUp, "Up")
+s.onkeypress(p2moveDown, "Down")
 s.onkeypress(moveLeft, "a")
-s.onkeypress(moveRight, "d")
 s.onkeypress(doQuit, "q")
-
+s.onkeypress(moveRight, "d")
+s.onkeyrelease(p1release, "w")
+s.onkeyrelease(p1release, "s")
+s.onkeyrelease(p2release, "Up")
+s.onkeyrelease(p2release, "Down")
 
 while shouldQuit == False:
     tickTime = time.perf_counter()
@@ -167,15 +195,23 @@ while shouldQuit == False:
         t.pendown()
     else:
         t.penup()
+    y = p1paddle.ycor()
+    if p1direction == "up":
 
-    if direction == "up":
-        t.setheading(90)
-    elif direction == "down":
-        t.setheading(270)
-    elif direction == "left":
-        t.setheading(180)
-    elif direction == "right":
-        t.setheading(0)
+        if y < 160:
+            p1paddle.sety(y + paddlespeed)
+    elif p1direction == "down":
+        if y > -225:
+            p1paddle.sety(y - paddlespeed)
+    y = p2paddle.ycor()
+    if p2direction == "up":
+
+        if y < 160:
+            p2paddle.sety(y + paddlespeed)
+    elif p2direction == "down":
+        if y > -225:
+            p2paddle.sety(y - paddlespeed)
+
 
     if (tickTime - gameTime) > 0.1:
         gameTime = tickTime
