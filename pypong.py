@@ -3,7 +3,7 @@
 # make paddles -
 # make a ball\ -
 # make ball move -
-# make the barriers -
+# make the barriers - done
 # make bounce mechanic -
 # make score board - done
 # score board updater/points counter -
@@ -59,6 +59,7 @@ for x in range(48):
     else:
         centerline.penup()
     centerline.fd(10)
+centerline.hideturtle()
 
 #perf counter
 gameTime = time.perf_counter()
@@ -88,6 +89,22 @@ p2scoreboard.penup()
 p2scoreboard.goto(160, 200)
 p2scoreboard.write ("Score: 0", align="center", font=("courier", 24, "normal"))
 p2scoreboard.hideturtle()
+
+
+
+# creating top and bottom barriers
+bottombarrier = turtle.Turtle()
+bottombarrier.width(5)
+bottombarrier.penup()
+bottombarrier.goto(-320, -230)
+bottombarrier.pendown()
+bottombarrier.fd(640)
+topbarrier = turtle.Turtle()
+topbarrier.width(5)
+topbarrier.penup()
+topbarrier.goto(-320, 240)
+topbarrier.pendown()
+topbarrier.fd(640)
 
 def moveUp():
     global direction
