@@ -1,6 +1,44 @@
+# create the play area - done
+# draw center line - done
+# make paddles -
+# make a ball\ -
+# make ball move -
+# make the barriers -
+# make bounce mechanic -
+# make score board - done
+# score board updater/points counter -
+# make collision detection -
+# controls (e.g., start and finish game, move paddles -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import turtle
 import time
-
+import random
 # setup
 s = turtle.Screen()
 s.title("PyPong")
@@ -8,7 +46,21 @@ s.setup(width=640, height=480)
 s.tracer(0, 1)
 t = turtle.Turtle()
 t.right(90)
+centerline = turtle.Turtle()
 
+# making center line
+centerline.penup()
+centerline.goto(0, 240)
+centerline.pendown()
+centerline.right(90)
+for x in range(48):
+    if x % 2 == 0:
+        centerline.pendown()
+    else:
+        centerline.penup()
+    centerline.fd(10)
+
+#perf counter
 gameTime = time.perf_counter()
 drawTime = time.perf_counter()
 fpsTime = time.perf_counter()
@@ -19,6 +71,23 @@ fpsCounter = 0
 shouldQuit = False
 penDown = True
 direction = "down"
+
+
+# score variables
+p1score = 0
+p2score = 0
+
+#Making score boards
+p1scoreboard = turtle.Turtle()
+p1scoreboard.penup()
+p1scoreboard.goto(-160, 200)
+p1scoreboard.write ("Score: 0", align="center", font=("courier", 24, "normal"))
+p1scoreboard.hideturtle()
+p2scoreboard = turtle.Turtle()
+p2scoreboard.penup()
+p2scoreboard.goto(160, 200)
+p2scoreboard.write ("Score: 0", align="center", font=("courier", 24, "normal"))
+p2scoreboard.hideturtle()
 
 def moveUp():
     global direction
@@ -70,7 +139,7 @@ while shouldQuit == False:
         penDown = not penDown
 
     if (tickTime - drawTime) > (1/60):
-        t.fd(2)
+        #t.fd(2)
         drawTime = tickTime
 
     time.sleep(1/100)
