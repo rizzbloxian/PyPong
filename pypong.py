@@ -43,12 +43,16 @@ import random
 s = turtle.Screen()
 s.title("PyPong")
 s.setup(width=640, height=480)
-s.tracer(0, 1)
-t = turtle.Turtle()
-t.right(90)
-centerline = turtle.Turtle()
+s.tracer(0)
+
+# initial game state
+shouldQuit = False
+p1direction = "none"
+p2direction = "none"
+paddlespeed = 2
 
 # making center line
+centerline = turtle.Turtle()
 centerline.penup()
 centerline.goto(0, 240)
 centerline.pendown()
@@ -60,21 +64,6 @@ for x in range(48):
         centerline.penup()
     centerline.fd(10)
 centerline.hideturtle()
-
-#perf counter
-gameTime = time.perf_counter()
-drawTime = time.perf_counter()
-fpsTime = time.perf_counter()
-fpsCounter = 0
-
-
-# initial game state
-shouldQuit = False
-penDown = True
-direction = "down"
-p1direction = "none"
-p2direction = "none"
-paddlespeed = 2
 
 
 # score variables
@@ -92,7 +81,6 @@ p2scoreboard.penup()
 p2scoreboard.goto(160, 200)
 p2scoreboard.write ("Score: 0", align="center", font=("courier", 24, "normal"))
 p2scoreboard.hideturtle()
-
 
 
 # creating top and bottom barriers
@@ -127,17 +115,18 @@ brush.end_poly()
 paddle = brush.get_poly()
 turtle.register_shape("paddle", paddle)
 brush.clear()
+
 p1paddle = turtle.Turtle()
 p1paddle.shape("paddle")
 p1paddle.penup()
 p1paddle.rt(90)
 p1paddle.goto(-310, 0)
+
 p2paddle = turtle.Turtle()
 p2paddle.shape("paddle")
 p2paddle.penup()
 p2paddle.rt(90)
 p2paddle.goto(310, 0)
-
 
 def p1moveUp():
     global p1direction
@@ -155,14 +144,6 @@ def p2moveDown():
     global p2direction
     p2direction = "down"
 
-def moveLeft():
-    global direction
-    direction = "left"
-
-def moveRight():
-    global direction
-    direction = "right"
-
 def p1release():
     global p1direction
     p1direction = "none"
@@ -171,33 +152,20 @@ def p2release():
     global p2direction
     p2direction = "none"
 
-def doQuit():
-    global shouldQuit
-    shouldQuit = True
-
 # register listeners
 s.listen()
 s.onkeypress(p1moveUp, "w")
 s.onkeypress(p1moveDown, "s")
 s.onkeypress(p2moveUp, "Up")
 s.onkeypress(p2moveDown, "Down")
-s.onkeypress(moveLeft, "a")
-s.onkeypress(doQuit, "q")
-s.onkeypress(moveRight, "d")
 s.onkeyrelease(p1release, "w")
 s.onkeyrelease(p1release, "s")
 s.onkeyrelease(p2release, "Up")
 s.onkeyrelease(p2release, "Down")
 
-while shouldQuit == False:
-    tickTime = time.perf_counter()
-    if penDown:
-        t.pendown()
-    else:
-        t.penup()
+while True:
     y = p1paddle.ycor()
     if p1direction == "up":
-
         if y < 160:
             p1paddle.sety(y + paddlespeed)
     elif p1direction == "down":
@@ -205,27 +173,12 @@ while shouldQuit == False:
             p1paddle.sety(y - paddlespeed)
     y = p2paddle.ycor()
     if p2direction == "up":
-
         if y < 160:
             p2paddle.sety(y + paddlespeed)
     elif p2direction == "down":
         if y > -225:
             p2paddle.sety(y - paddlespeed)
 
-
-    if (tickTime - gameTime) > 0.1:
-        gameTime = tickTime
-        penDown = not penDown
-
-    if (tickTime - drawTime) > (1/60):
-        #t.fd(2)
-        drawTime = tickTime
-
-    time.sleep(1/100)
     s.update()
-    fpsCounter = fpsCounter + 1
 
-    if (tickTime - fpsTime) > 1:
-        print(fpsCounter)
-        fpsCounter = 0
-        fpsTime = tickTime
+    time.sleep(1/60)
