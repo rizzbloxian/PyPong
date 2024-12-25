@@ -1,8 +1,8 @@
 # create the play area - done
 # draw center line - done
 # make paddles - done
-# make a ball\ -
-# make ball move -
+# make a ball\ - done
+# make ball move - done
 # make the barriers - done
 # make bounce mechanic -
 # make score board - done
@@ -50,6 +50,7 @@ shouldQuit = False
 p1direction = "none"
 p2direction = "none"
 paddlespeed = 2
+ballspeed = 3
 
 # making center line
 centerline = turtle.Turtle()
@@ -115,6 +116,7 @@ brush.end_poly()
 paddle = brush.get_poly()
 turtle.register_shape("paddle", paddle)
 brush.clear()
+brush.hideturtle()
 
 p1paddle = turtle.Turtle()
 p1paddle.shape("paddle")
@@ -163,6 +165,12 @@ s.onkeyrelease(p1release, "s")
 s.onkeyrelease(p2release, "Up")
 s.onkeyrelease(p2release, "Down")
 
+# making ball
+ball = turtle.Turtle()
+ball.shape("circle")
+ball.turtlesize(0.5)
+ball.right(random.randrange(0, 360))
+
 while True:
     y = p1paddle.ycor()
     if p1direction == "up":
@@ -178,7 +186,11 @@ while True:
     elif p2direction == "down":
         if y > -225:
             p2paddle.sety(y - paddlespeed)
-
+    ball.fd(ballspeed)
     s.update()
 
     time.sleep(1/60)
+
+
+
+
