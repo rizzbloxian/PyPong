@@ -4,37 +4,16 @@
 # make a ball\ - done
 # make ball move - done
 # make the barriers - done
-# make bounce mechanic -
+# make bounce mechanic - done
 # make score board - done
-# score board updater/points counter -
-# make collision detection -
+# score board updater/points counter - done
+# make collision detection - done
 # controls (e.g., start and finish game, move paddles - paddles are done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# make ball go faster after certain amount of ticks
+# make ball go faster based off of points ( + 1 speed every 2 points)
+# add sound effects
+# make game pause/end after one person reaches 10 points
+# make middle part of paddles to make ball temporarily faster
 
 import turtle
 import time
@@ -171,21 +150,49 @@ ball.shape("circle")
 ball.turtlesize(0.5)
 ball.right(random.randrange(0, 360))
 
+# making bounce mechanic
+
 while True:
-    y = p1paddle.ycor()
+    p1y = p1paddle.ycor()
     if p1direction == "up":
-        if y < 160:
-            p1paddle.sety(y + paddlespeed)
+        if p1y < 160:
+            p1paddle.sety(p1y + paddlespeed)
     elif p1direction == "down":
-        if y > -225:
-            p1paddle.sety(y - paddlespeed)
-    y = p2paddle.ycor()
+        if p1y > -225:
+            p1paddle.sety(p1y - paddlespeed)
+    p2y = p2paddle.ycor()
     if p2direction == "up":
-        if y < 160:
-            p2paddle.sety(y + paddlespeed)
+        if p2y < 160:
+            p2paddle.sety(p2y + paddlespeed)
     elif p2direction == "down":
-        if y > -225:
-            p2paddle.sety(y - paddlespeed)
+        if p2y > -225:
+            p2paddle.sety(p2y - paddlespeed)
+    bally = ball.ycor()
+    heading = ball.heading()
+    if bally >= 240:
+        ball.setheading(360 - heading)
+    if bally <= -230:
+        ball.setheading(360 - heading)
+    x = ball.xcor()
+    heading = ball.heading()
+    if x >= 300:
+        if (bally > p2y ) and  bally < (p2y + paddlelength):
+            ball.setheading(180 - heading)
+        else:
+            p1score += 1
+            p1scoreboard.clear()
+            p1scoreboard.write (("Score: " + str(p1score)), align="center", font=("courier", 24, "normal"))
+            ball.home()
+            ball.right(random.randrange(0, 360))
+    if x <= -310:
+        if (bally > p1y ) and  bally < (p1y + paddlelength):
+            ball.setheading(180 - heading)
+        else:
+            p2score += 1
+            p2scoreboard.clear()
+            p2scoreboard.write (("Score: " + str(p2score)), align="center", font=("courier", 24, "normal"))
+            ball.home()
+            ball.right(random.randrange(0, 360))
     ball.fd(ballspeed)
     s.update()
 
