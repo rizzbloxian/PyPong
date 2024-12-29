@@ -12,7 +12,7 @@
 # make ball go faster after certain amount of ticks
 # make ball go faster based off of points ( + 1 speed every 2 points)
 # add sound effects
-# make game pause/end after one person reaches 10 points
+# make game pause/end after one person reaches 10 points = done
 # make middle part of paddles to make ball temporarily faster
 
 import turtle
@@ -28,8 +28,8 @@ s.tracer(0)
 shouldQuit = False
 p1direction = "none"
 p2direction = "none"
-paddlespeed = 2
-ballspeed = 3
+paddlespeed = 5
+ballspeed = 10
 
 # making center line
 centerline = turtle.Turtle()
@@ -49,17 +49,19 @@ centerline.hideturtle()
 # score variables
 p1score = 0
 p2score = 0
+maxscore = 10
+
 
 #Making score boards
 p1scoreboard = turtle.Turtle()
 p1scoreboard.penup()
 p1scoreboard.goto(-160, 200)
-p1scoreboard.write ("Score: 0", align="center", font=("courier", 24, "normal"))
+p1scoreboard.write ("Player 1: 0", align="center", font=("courier", 20, "normal"))
 p1scoreboard.hideturtle()
 p2scoreboard = turtle.Turtle()
 p2scoreboard.penup()
 p2scoreboard.goto(160, 200)
-p2scoreboard.write ("Score: 0", align="center", font=("courier", 24, "normal"))
+p2scoreboard.write ("Player 2: 0", align="center", font=("courier", 20, "normal"))
 p2scoreboard.hideturtle()
 
 
@@ -148,7 +150,7 @@ s.onkeyrelease(p2release, "Down")
 ball = turtle.Turtle()
 ball.shape("circle")
 ball.turtlesize(0.5)
-ball.right(random.randrange(0, 360))
+ball.right(random.randrange(-45, 45))
 
 # making bounce mechanic
 
@@ -156,9 +158,11 @@ while True:
     p1y = p1paddle.ycor()
     if p1direction == "up":
         if p1y < 160:
+            # makes sure the paddle doesnt go through the ceiling
             p1paddle.sety(p1y + paddlespeed)
     elif p1direction == "down":
         if p1y > -225:
+            # checks if paddle is under the ground
             p1paddle.sety(p1y - paddlespeed)
     p2y = p2paddle.ycor()
     if p2direction == "up":
@@ -179,20 +183,41 @@ while True:
         if (bally > p2y ) and  bally < (p2y + paddlelength):
             ball.setheading(180 - heading)
         else:
+            # adds score to p1 when ball touches other side of screen
             p1score += 1
             p1scoreboard.clear()
-            p1scoreboard.write (("Score: " + str(p1score)), align="center", font=("courier", 24, "normal"))
+            p1scoreboard.write (("Player 1: " + str(p1score)), align="center", font=("courier", 20, "normal"))
             ball.home()
-            ball.right(random.randrange(0, 360))
+            ball.clear()
+            ball.setheading(random.randrange(135, 225))
     if x <= -310:
         if (bally > p1y ) and  bally < (p1y + paddlelength):
             ball.setheading(180 - heading)
         else:
+            # adds score to p2 when ball touches other side of screen
             p2score += 1
             p2scoreboard.clear()
-            p2scoreboard.write (("Score: " + str(p2score)), align="center", font=("courier", 24, "normal"))
+            p2scoreboard.write (("Player 2: " + str(p2score)), align="center", font=("courier", 20, "normal"))
             ball.home()
-            ball.right(random.randrange(0, 360))
+            ball.clear()
+            ball.setheading(random.randrange(-45, 45))
+    if p1score >= maxscore:
+        s.bgcolor("black")
+        s.clearscreen()
+        winscreen = turtle.Turtle()
+        winscreen.hideturtle()
+        winscreen.write(("Congratulations! Player 1 Wins!"), align="center", font=("courier", 25, "normal"))
+        s.update()
+        break
+    if p2score >= maxscore:
+        s.bgcolor("black")
+        s.clearscreen()
+        winscreen = turtle.Turtle()
+        winscreen.hideturtle()
+        winscreen.write(("Congratulations! Player 2 Wins!"), align="center", font=("courier", 25, "normal"))
+        s.update()
+        break
+
     ball.fd(ballspeed)
     s.update()
 
