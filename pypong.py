@@ -28,7 +28,7 @@ s.tracer(0)
 shouldQuit = False
 p1direction = "none"
 p2direction = "none"
-paddlespeed = 5
+paddlespeed = 7
 ballspeed = 10
 
 # making center line
@@ -49,7 +49,7 @@ centerline.hideturtle()
 # score variables
 p1score = 0
 p2score = 0
-maxscore = 10
+maxscore = 100
 
 
 #Making score boards
@@ -202,18 +202,20 @@ while True:
             ball.clear()
             ball.setheading(random.randrange(-45, 45))
     if p1score >= maxscore:
-        s.bgcolor("black")
         s.clearscreen()
+        s.bgcolor ("black")
         winscreen = turtle.Turtle()
         winscreen.hideturtle()
+        winscreen.pencolor("white")
         winscreen.write(("Congratulations! Player 1 Wins!"), align="center", font=("courier", 25, "normal"))
         s.update()
         break
     if p2score >= maxscore:
-        s.bgcolor("black")
         s.clearscreen()
+        s.bgcolor("black")
         winscreen = turtle.Turtle()
         winscreen.hideturtle()
+        winscreen.pencolor("white")
         winscreen.write(("Congratulations! Player 2 Wins!"), align="center", font=("courier", 25, "normal"))
         s.update()
         break
