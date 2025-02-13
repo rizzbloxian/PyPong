@@ -1,3 +1,12 @@
+# 8C Vincent Tsui Retro Ping Pong
+
+
+#Game rules:
+#player 2 plays with F and V and Player 2 plays with up and down arrow keys.
+#get a point by getting the ball to hit the other side.
+#First player to get 10 points wins
+
+
 # create the play area - done
 # draw center line - done
 # make paddles - done
@@ -29,7 +38,7 @@ shouldQuit = False
 p1direction = "none"
 p2direction = "none"
 paddlespeed = 5
-ballspeed = 10
+ballspeed = 6
 
 # making center line
 centerline = turtle.Turtle()
@@ -137,12 +146,12 @@ def p2release():
 
 # register listeners
 s.listen()
-s.onkeypress(p1moveUp, "w")
-s.onkeypress(p1moveDown, "s")
+s.onkeypress(p1moveUp, "f")
+s.onkeypress(p1moveDown, "v")
 s.onkeypress(p2moveUp, "Up")
 s.onkeypress(p2moveDown, "Down")
-s.onkeyrelease(p1release, "w")
-s.onkeyrelease(p1release, "s")
+s.onkeyrelease(p1release, "f")
+s.onkeyrelease(p1release, "v")
 s.onkeyrelease(p2release, "Up")
 s.onkeyrelease(p2release, "Down")
 
@@ -151,6 +160,7 @@ ball = turtle.Turtle()
 ball.shape("circle")
 ball.turtlesize(0.5)
 ball.right(random.randrange(-45, 45))
+ball.penup()
 
 # making bounce mechanic
 
