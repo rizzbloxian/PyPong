@@ -38,7 +38,8 @@ shouldQuit = False
 p1direction = "none"
 p2direction = "none"
 paddlespeed = 7
-ballspeed = 10
+ballspeed = 8
+
 
 # making center line
 centerline = turtle.Turtle()
@@ -183,9 +184,9 @@ while True:
             p2paddle.sety(p2y - paddlespeed)
     bally = ball.ycor()
     heading = ball.heading()
-    if bally >= 240:
+    if bally >= 230:
         ball.setheading(360 - heading)
-    if bally <= -230:
+    if bally <= -225:
         ball.setheading(360 - heading)
     x = ball.xcor()
     heading = ball.heading()
