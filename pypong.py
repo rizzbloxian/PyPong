@@ -2,14 +2,14 @@
 
 
 #Game rules:
-#player 2 plays with F and V and Player 2 plays with up and down arrow keys.
+#player 1 plays with F and V and Player 2 plays with up and down arrow keys.
 #get a point by getting the ball to hit the other side.
 #First player to get 10 points wins
 
 
 # create the play area - done
 # draw center line - done
-# make paddles - done
+# make paddles - doneE
 # make a ball\ - done
 # make ball move - done
 # make the barriers - done
@@ -27,6 +27,7 @@
 import turtle
 import time
 import random
+
 # setup
 s = turtle.Screen()
 s.title("PyPong")
@@ -34,7 +35,6 @@ s.setup(width=640, height=480)
 s.tracer(0)
 
 # initial game state
-shouldQuit = False
 p1direction = "none"
 p2direction = "none"
 paddlespeed = 7
@@ -59,7 +59,7 @@ centerline.hideturtle()
 # score variables
 p1score = 0
 p2score = 0
-maxscore = 100
+maxscore = 10
 
 
 #Making score boards
@@ -124,10 +124,12 @@ p2paddle.goto(310, 0)
 def p1moveUp():
     global p1direction
     p1direction = "up"
+    print(p1direction)
 
 def p1moveDown():
     global p1direction
     p1direction = "down"
+    print(p1direction)
 
 def p2moveUp():
     global p2direction
@@ -192,7 +194,14 @@ while True:
     heading = ball.heading()
     if x >= 300:
         if (bally > p2y ) and  bally < (p2y + paddlelength):
-            ball.setheading(180 - heading)
+            bounceAngle = 180 - heading
+            randomness = random.randrange(-10, 10)
+            if bounceAngle < -110:
+                randomness = random.randrange(0, 20)
+            elif bounceAngle > 110:
+                randomness = random.randrange(-20, 0)
+            ball.setx(300)
+            ball.setheading(bounceAngle + randomness)
         else:
             # adds score to p1 when ball touches other side of screen
             p1score += 1
@@ -203,7 +212,14 @@ while True:
             ball.setheading(random.randrange(135, 225))
     if x <= -310:
         if (bally > p1y ) and  bally < (p1y + paddlelength):
-            ball.setheading(180 - heading)
+            bounceAngle = 180 - heading
+            randomness = random.randrange(-10, 10)
+            if bounceAngle < -70:
+                randomness = random.randrange(0, 20)
+            elif bounceAngle > 70:
+                randomness = random.randrange(-20, 0)
+            ball.setx(-310)
+            ball.setheading(bounceAngle + randomness)
         else:
             # adds score to p2 when ball touches other side of screen
             p2score += 1
